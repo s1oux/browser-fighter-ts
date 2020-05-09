@@ -8,6 +8,8 @@ export default class Player {
     this.blocking = false;
     this.criticalHitSequence = [];
     this.criticalHitTiming = 0;
-    this.lastCriticalHit = new Date();
+    this.lastCriticalHit = 0;
+    // despite of below to evade 10s timeout on initialization
+    // this.lastCriticalHit = new Date();
   }
 }
