@@ -18,15 +18,32 @@
   height: 60%;
 }
 
+.fighter-preview___name {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  margin: auto;
+  text-align: center;
+  width: 50%;
+  padding: 5%;
+}
+
 .fighter-preview___info {
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  height: 30%;
+  height: 40%;
   justify-content: space-between;
   margin: auto;
   text-align: center;
   width: 50%;
   padding: 5%;
+}
+
+.fighter-preview___name:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.fighter-preview___info:hover {
+  background-color: rgba(255, 255, 255, 0.7);
 }

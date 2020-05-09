@@ -1,4 +1,5 @@
 import { createElement } from '../../helpers/domHelper';
+import { createFighterImage } from '../fighterPreview';
 
 export function showModal({ title, bodyElement, onClose = () => {} }) {
   const root = getModalContainer();
@@ -16,8 +17,9 @@ function createModal({ title, bodyElement, onClose }) {
   const modalContainer = createElement({ tagName: 'div', className: 'modal-root' });
   const header = createHeader(title, onClose);
   const bodyContent = createElement({ tagName: 'div', className: 'modal-body' });
+  const fighterImage = createFighterImage(bodyElement);
 
-  bodyContent.append(bodyElement);
+  bodyContent.append(fighterImage);
   modalContainer.append(header, bodyContent);
   layer.append(modalContainer);
 
