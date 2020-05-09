@@ -14,26 +14,15 @@ export async function fight(firstFighter, secondFighter) {
     const firstPlayer = new Player(firstFighter);
     const secondPlayer = new Player(secondFighter);
 
-    const keyPressListener = (event) => {
+    const keyDownListener = (event) => {
       checkKeyPress(event.code, firstPlayer, secondPlayer);
 
       if (firstPlayer.currentHealth < 0) {
         removeKeyListeners();
-        resolve(secondPlayer);
+        resolve(secondFighter);
       } else if (secondPlayer.currentHealth < 0) {
         removeKeyListeners();
-        resolve(firstPlayer);
-      }
-    };
-    document.addEventListener('keypress', keyPressListener);
-
-    const keyDownListener = (event) => {
-      if (event.code === controls.PlayerOneBlock && !firstPlayer.blocking) {
-        firstPlayer.blocking = true;
-      } else if (event.code === controls.PlayerTwoBlock && !secondPlayer.blocking) {
-        secondPlayer.blocking = true;
-      } else {
-        // do nothing
+        resolve(firstFighter);
       }
     };
     document.addEventListener('keydown', keyDownListener);
@@ -50,9 +39,8 @@ export async function fight(firstFighter, secondFighter) {
     document.addEventListener('keyup', keyUpListener);
 
     const removeKeyListeners = () => {
-      document.removeEventListener('keypress', keyPressListener);
-      document.removeEventListener('keyup', keyUpListener);
       document.removeEventListener('keydown', keyDownListener);
+      document.removeEventListener('keyup', keyUpListener);
     };
   });
 }
@@ -113,6 +101,16 @@ const checkKeyPress = (keyCode, firstFighter, secondFighter) => {
 
       updateHealthIndicator(firstFighter, 'left');
 
+      break;
+    case controls.PlayerOneBlock:
+      if (!firstFighter.blocking) {
+        firstFighter.blocking = true;
+      }
+      break;
+    case controls.PlayerTwoBlock:
+      if (!secondFighter.blocking) {
+        secondFighter.blocking = true;
+      }
       break;
     default:
       if (checkCriticalKeyCodePressing(keyCode, controls.PlayerOneCriticalHitCombination, firstFighter)) {
