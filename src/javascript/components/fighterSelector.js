@@ -25,7 +25,7 @@ export async function getFighterInfo(fighterId) {
   // get fighter info from fighterDetailsMap or from service and write it to fighterDetailsMap => for what ?
 
   const fighterInfo = await fighterService.getFighterDetails(fighterId);
-  console.log(fighterInfo);
+
   return fighterInfo;
   // returning fighters information | even starting game after selection | should check info rendering
 }
