@@ -13,15 +13,13 @@ export function renderArena(selectedFighters) {
   root.innerHTML = '';
   root.append(arena);
 
-  fight(firstFighter, secondFighter).then((winner) => {
-    showWinnerModal(winner);
-  });
-
-  // ADD modal for winner display
-
   // todo:
   // - start the fight
   // - when fight is finished show winner
+
+  fight(firstFighter, secondFighter).then((winner) => {
+    showWinnerModal(winner);
+  });
 }
 
 function createArena(selectedFighters) {

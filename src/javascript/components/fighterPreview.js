@@ -13,10 +13,8 @@ export function createFighterPreview(fighter, position) {
 
   // todo: show fighter info (image, name, health, etc.)
 
-  // test area
   fighterElement.append(createFighterImage(fighter));
   fighterElement.append(createFighterInfo(fighter));
-  // end of test area
 
   return fighterElement;
 }

@@ -27,7 +27,6 @@ export async function getFighterInfo(fighterId) {
   const fighterInfo = await fighterService.getFighterDetails(fighterId);
 
   return fighterInfo;
-  // returning fighters information | even starting game after selection | should check info rendering
 }
 
 function renderSelectedFighters(selectedFighters) {
