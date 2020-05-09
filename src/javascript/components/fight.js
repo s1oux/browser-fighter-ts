@@ -8,6 +8,9 @@ class Player {
     this.initialHealth = fighter.health;
     this.currentHealth = fighter.health;
     this.blocking = false;
+    this.criticalHitSequence = [];
+    this.criticalHitTiming = 0;
+    this.lastCriticalHit = new Date();
   }
 }
 
@@ -68,6 +71,11 @@ export async function fight(firstFighter, secondFighter) {
   });
 }
 
+export function getCriticalHit(fighter) {
+  // return critical damage
+  return fighter.attack * 2;
+}
+
 export function getDamage(attacker, defender) {
   // return damage
   if (attacker.blocking) {
@@ -102,39 +110,123 @@ const getRandomNumber = (min, max) => {
   return Math.random() * (max - min) + min;
 };
 
-// should check block keypress on keyup -> escape from blocking
-//  | keydown -> blocking
-// **** that WORKS
 const checkKeyPress = (keyCode, first, second) => {
   switch (keyCode) {
     case controls.PlayerOneAttack:
       // handlePlayerAttack
       const secondPlayerDamageDealt = getDamage(first, second);
       second.currentHealth -= secondPlayerDamageDealt;
+      resetCriticalHitParameters(first);
       const rightPlayerHealthIndicator = document.getElementById('right-fighter-indicator');
       rightPlayerHealthIndicator.style.width = `${Math.round((second.currentHealth / second.initialHealth) * 100)}%`;
-      // console.log(`${secondPlayerDamageDealt} dealt to ${second.name} (${second.currentHealth})`);
-
       break;
     case controls.PlayerTwoAttack:
       // handlePlayerAttack
       const firstPlayerDealt = getDamage(second, first);
       first.currentHealth -= firstPlayerDealt;
+      resetCriticalHitParameters(second);
       const leftPlayerHealthIndicator = document.getElementById('left-fighter-indicator');
-
       leftPlayerHealthIndicator.style.width = `${Math.round((first.currentHealth / first.initialHealth) * 100)}%`;
-      // console.log(`${firstPlayerDealt} dealt to ${first.name} (${first.currentHealth})`);
-
       break;
-    // case controls.PlayerOneBlock:
-    //   // handlePlayerBlock
-    //   console.log('d was clicked, 1st blocks');
-    //   break;
-    // case controls.PlayerTwoBlock:
-    //   // handlePlayerBlock
-    //   console.log('l was clicked, 2nd blocks');
-    //   break;
     default:
+      // need to prettier this
+      if (controls.PlayerOneCriticalHitCombination.includes(keyCode) && !first.blocking) {
+        switch (first.criticalHitSequence.length) {
+          case 0:
+            if ((new Date() - first.lastCriticalHit) / 1000 < 10) {
+              console.log('last critical hit was earlier than 10 seconds ago');
+            } else {
+              first.criticalHitTiming = new Date();
+              first.criticalHitSequence.push(keyCode);
+            }
+            break;
+          case 1:
+            if ((new Date() - first.criticalHitTiming) / 1000 > 2) {
+              console.log(
+                `broke critical hit sequence because of long delay (${(new Date() - first.criticalHitTiming) / 1000})`
+              );
+              resetCriticalHitParameters(first);
+            } else if (keyCode === controls.PlayerOneCriticalHitCombination[1]) {
+              first.criticalHitTiming = new Date();
+              first.criticalHitSequence.push(keyCode);
+            } else {
+              console.log('broke critical hit sequence because of wrong sequence');
+              resetCriticalHitParameters(first);
+            }
+            break;
+          case 2:
+            if ((new Date() - first.criticalHitTiming) / 1000 > 2) {
+              console.log('broke critical hit sequence because of long delay');
+              resetCriticalHitParameters(first);
+            } else if (keyCode === controls.PlayerOneCriticalHitCombination[2]) {
+              const secondPlayerDamageDealt = getCriticalHit(first);
+              second.currentHealth -= secondPlayerDamageDealt;
+              const rightPlayerHealthIndicator = document.getElementById('right-fighter-indicator');
+              rightPlayerHealthIndicator.style.width = `${Math.round(
+                (second.currentHealth / second.initialHealth) * 100
+              )}%`;
+              resetCriticalHitParameters(first);
+              updateLastCriticalHitTime(first);
+            } else {
+              console.log('broke critical hit sequence because of wrong sequence');
+              resetCriticalHitParameters(first);
+            }
+            break;
+        }
+      } else if (controls.PlayerTwoCriticalHitCombination.includes(keyCode) && !second.blocking) {
+        switch (second.criticalHitSequence.length) {
+          case 0:
+            if ((new Date() - second.lastCriticalHit) / 1000 < 10) {
+              console.log('last critical hit was earlier than 10 seconds ago');
+            } else {
+              second.criticalHitTiming = new Date();
+              second.criticalHitSequence.push(keyCode);
+            }
+            break;
+          case 1:
+            if ((new Date() - second.criticalHitTiming) / 1000 > 2) {
+              console.log(
+                `broke critical hit sequence because of long delay (${(new Date() - second.criticalHitTiming) / 1000})`
+              );
+              resetCriticalHitParameters();
+            } else if (keyCode === controls.PlayerTwoCriticalHitCombination[1]) {
+              second.criticalHitTiming = new Date();
+              second.criticalHitSequence.push(keyCode);
+            } else {
+              console.log('broke critical hit sequence because of wrong sequence');
+              resetCriticalHitParameters(second);
+            }
+            break;
+          case 2:
+            if ((new Date() - second.criticalHitTiming) / 1000 > 2) {
+              console.log('broke critical hit sequence because of long delay');
+              resetCriticalHitParameters(second);
+            } else if (keyCode === controls.PlayerTwoCriticalHitCombination[2]) {
+              const firstPlayerDamageDealt = getCriticalHit(second);
+              first.currentHealth -= firstPlayerDamageDealt;
+              const leftPlayerHealthIndicator = document.getElementById('left-fighter-indicator');
+              leftPlayerHealthIndicator.style.width = `${Math.round(
+                (first.currentHealth / first.initialHealth) * 100
+              )}%`;
+              resetCriticalHitParameters(second);
+              updateLastCriticalHitTime(second);
+            } else {
+              console.log('broke critical hit sequence because of wrong sequence');
+            }
+            break;
+        }
+      }
+
       console.log('another key clicked, nothing happens');
+      break;
   }
+};
+
+const resetCriticalHitParameters = (fighter) => {
+  fighter.criticalHitSequence = [];
+  fighter.criticalHitTiming = 0;
+};
+
+const updateLastCriticalHitTime = (fighter) => {
+  fighter.lastCriticalHit = new Date();
 };
