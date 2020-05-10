@@ -17,10 +17,10 @@ export async function fight(firstFighter, secondFighter) {
     const keyDownListener = (event) => {
       checkKeyPress(event.code, firstPlayer, secondPlayer);
 
-      if (firstPlayer.currentHealth < 0) {
+      if (firstPlayer.currentHealth <= 0) {
         removeKeyListeners();
         resolve(secondFighter);
-      } else if (secondPlayer.currentHealth < 0) {
+      } else if (secondPlayer.currentHealth <= 0) {
         removeKeyListeners();
         resolve(firstFighter);
       }
@@ -148,7 +148,7 @@ const checkCriticalHitSequence = (attacker, defender, key, combination, side) =>
     case 0:
       if (checkLastCriticalHitTime(attacker)) {
         // do nothing if player makes crit in last 10s
-      } else {
+      } else if (key === combination[0]) {
         attacker.criticalHitTiming = new Date();
         attacker.criticalHitSequence.push(key);
       }
