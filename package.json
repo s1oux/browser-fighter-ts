@@ -9,12 +9,16 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.6"
+  },
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.9.0",
+    "@babel/preset-typescript": "^7.10.4",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.4.2",
     "style-loader": "^1.1.3",

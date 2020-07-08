@@ -1,6 +1,15 @@
 import { createElement } from '../helpers/domHelper';
 
-export function createFighterPreview(fighter, position) {
+interface IFighterModel {
+  _id: string,
+  name: string,
+  health: number, 
+  attack: number, 
+  defense: number,
+  source: string
+}
+
+export function createFighterPreview(fighter: IFighterModel, position: string) {
   if (!fighter) {
     return '';
   }
@@ -20,14 +29,14 @@ export function createFighterPreview(fighter, position) {
   return fighterElement;
 }
 
-export function createFighterName(fighter) {
+export function createFighterName(fighter: IFighterModel) {
   const { name } = fighter;
   const nameElement = createElement({ tagName: 'h3', className: 'fighter-preview___name' });
   nameElement.innerText = name;
   return nameElement;
 }
 
-export function createFighterImage(fighter) {
+export function createFighterImage(fighter: IFighterModel) {
   const { source, name } = fighter;
   const attributes = { src: source };
   const imgElement = createElement({
@@ -41,7 +50,7 @@ export function createFighterImage(fighter) {
   return imgElement;
 }
 
-export function createFighterInfo(fighter) {
+export function createFighterInfo(fighter: IFighterModel) {
   const { attack, defense, health } = fighter;
 
   const infoElement = createElement({

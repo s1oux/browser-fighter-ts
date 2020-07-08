@@ -1,6 +1,15 @@
 import { showModal } from './modal';
 
-export function showWinnerModal(fighter) {
+interface IFighterModel {
+  _id: string,
+  name: string,
+  health: number, 
+  attack: number, 
+  defense: number,
+  source: string
+}
+
+export function showWinnerModal(fighter : IFighterModel) {
   // call showModal function
   showModal({
     title: `And winner is ${fighter.name}`,

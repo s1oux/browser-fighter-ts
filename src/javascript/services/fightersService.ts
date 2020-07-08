@@ -12,7 +12,7 @@ class FighterService {
     }
   }
 
-  async getFighterDetails(id) {
+  async getFighterDetails(id : string) {
     // todo: implement this method
     // endpoint - `details/fighter/${id}.json`;
     try {

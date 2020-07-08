@@ -1,6 +1,15 @@
 import { createFighters } from './components/fightersView';
 import { fighterService } from './services/fightersService';
 
+interface IFighterModel {
+  _id: string,
+  name: string,
+  health: number, 
+  attack: number, 
+  defense: number,
+  source: string
+}
+
 class App {
   constructor() {
     this.startApp();
@@ -11,17 +20,17 @@ class App {
 
   async startApp() {
     try {
-      App.loadingElement.style.visibility = 'visible';
+      App.loadingElement!.style.visibility = 'visible';
 
       const fighters = await fighterService.getFighters();
-      const fightersElement = createFighters(fighters);
+      const fightersElement = createFighters(fighters as IFighterModel[]);
 
-      App.rootElement.appendChild(fightersElement);
+      App.rootElement!.appendChild(fightersElement);
     } catch (error) {
       console.warn(error);
-      App.rootElement.innerText = 'Failed to load data';
+      App.rootElement!.innerText = 'Failed to load data';
     } finally {
-      App.loadingElement.style.visibility = 'hidden';
+      App.loadingElement!.style.visibility = 'hidden';
     }
   }
 }

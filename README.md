@@ -1,6 +1,6 @@
-# stage-2-es6-for-everyone
+# bsa-20 2nd lecture homework [TS]
 
-## Instalation
+## Installation
 
 `npm install`
 

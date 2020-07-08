@@ -3,7 +3,7 @@ import { fightersDetails, fighters } from './mockData';
 const API_URL = 'https://api.github.com/repos/binary-studio-academy/stage-2-es6-for-everyone/contents/resources/api/';
 const useMockAPI = true;
 
-async function callApi(endpoint, method) {
+async function callApi(endpoint : string, method : string) {
   const url = API_URL + endpoint;
   const options = {
     method,
@@ -19,7 +19,7 @@ async function callApi(endpoint, method) {
         });
 }
 
-async function fakeCallApi(endpoint) {
+async function fakeCallApi(endpoint : string) {
   const response = endpoint === 'fighters.json' ? fighters : getFighterById(endpoint);
 
   return new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ async function fakeCallApi(endpoint) {
   });
 }
 
-function getFighterById(endpoint) {
+function getFighterById(endpoint : string) {
   const start = endpoint.lastIndexOf('/');
   const end = endpoint.lastIndexOf('.json');
   const id = endpoint.substring(start + 1, end);
