@@ -6,8 +6,6 @@ import { IFighterModel } from '../interfaces/iFighter';
 import { renderArena } from './arena';
 import { createFighterPreview } from './fighterPreview';
 
-const versusImg = '../../../resources/versus.jpg';
-
 export function createFightersSelector() {
   let selectedFighters: IFighterModel[] = [];
 
@@ -51,8 +49,7 @@ function createVersusBlock(selectedFighters: IFighterModel[]): HTMLElement {
   });
   const image = createElement({
     tagName: 'img',
-    className: 'preview-container___versus-img',
-    attributes: { src: versusImg },
+    className: 'preview-container___versus-img'
   });
   const disabledBtn = canStartFight ? '' : 'disabled';
   const fightBtn = createElement({

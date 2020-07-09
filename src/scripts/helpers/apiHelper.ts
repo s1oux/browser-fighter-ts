@@ -10,13 +10,11 @@ async function callApi<T>(endpoint : string, method : string) {
   };
 
   return useMockAPI
-    ? fakeCallApi(endpoint)
+    ? fakeCallApi(endpoint) as Promise<T>
     : fetch(url, options)
-        .then((response) => (response.ok ? response.json() : Promise.reject(Error('Failed to load'))))
-        .then((result) => JSON.parse(atob(result.content)))
-        .catch((error) => {
-          throw error;
-        }) as Promise<T>;
+      .then((response) => (response.ok ? response.json() : Promise.reject(Error('Failed to load'))))
+      .then((result) => JSON.parse(atob(result.content)))
+      .catch((error) => { throw error; }) as Promise<T>;
 }
 
 async function fakeCallApi(endpoint : string) {

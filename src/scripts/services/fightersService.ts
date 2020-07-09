@@ -5,7 +5,7 @@ class FighterService {
   async getFighters(): Promise<IFighterModel[]> {
     try {
       const endpoint: string = 'fighters.json';
-      const apiResult: IFighterModel[] = await callApi<IFighterModel[]>(endpoint, 'GET') as IFighterModel[];
+      const apiResult: IFighterModel[] = await callApi<IFighterModel[]>(endpoint, 'GET');
 
       return apiResult;
     } catch (error) {
@@ -16,7 +16,7 @@ class FighterService {
   async getFighterDetails(id : string): Promise<IFighterModel> {
     try {
       const endpoint: string = `details/fighter/${id}.json`;
-      const apiResult: IFighterModel = await callApi<IFighterModel>(endpoint, 'GET') as IFighterModel;
+      const apiResult: IFighterModel = await callApi<IFighterModel>(endpoint, 'GET');
       return apiResult;
     } catch (error) {
       throw error;

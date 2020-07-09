@@ -16,6 +16,7 @@
 }
 
 .preview-container___versus-img {
+  content: url('../../resources//versus.jpg');
   width: 130px;
 }
 

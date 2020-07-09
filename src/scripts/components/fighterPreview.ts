@@ -9,8 +9,8 @@ export function createFighterPreview(
     return '';
   }
 
-  const positionClassName = position === 'right' ? 'fighter-preview___right' : 'fighter-preview___left';
-  const fighterElement = createElement({
+  const positionClassName: string = position === 'right' ? 'fighter-preview___right' : 'fighter-preview___left';
+  const fighterElement: HTMLElement = createElement({
     tagName: 'div',
     className: `fighter-preview___root ${positionClassName}`,
   });
@@ -24,7 +24,7 @@ export function createFighterPreview(
 
 export function createFighterName(fighter: IFighterModel): HTMLElement {
   const { name } = fighter;
-  const nameElement = createElement({
+  const nameElement: HTMLElement = createElement({
     tagName: 'h3',
     className: 'fighter-preview___name'
   });
@@ -35,7 +35,7 @@ export function createFighterName(fighter: IFighterModel): HTMLElement {
 export function createFighterImage(fighter: IFighterModel): HTMLElement {
   const { source, name } = fighter;
   const attributes = { src: source };
-  const imgElement = createElement({
+  const imgElement: HTMLElement = createElement({
     tagName: 'img',
     className: 'fighter-preview___img',
     title: name,
@@ -49,18 +49,18 @@ export function createFighterImage(fighter: IFighterModel): HTMLElement {
 export function createFighterInfo(fighter: IFighterModel): HTMLElement {
   const { attack, defense, health } = fighter;
 
-  const infoElement = createElement({
+  const infoElement: HTMLElement = createElement({
     tagName: 'div',
     className: 'fighter-preview___info',
   });
 
-  const attackInfo = createParagraphElement();
+  const attackInfo: HTMLElement = createParagraphElement();
   attackInfo.append(`attack: ${attack}`);
 
-  const defenseInfo = createParagraphElement();
+  const defenseInfo: HTMLElement = createParagraphElement();
   defenseInfo.append(`defense: ${defense}`);
 
-  const healthInfo = createParagraphElement();
+  const healthInfo: HTMLElement = createParagraphElement();
   healthInfo.append(`health: ${health}`);
 
   infoElement.append(attackInfo);

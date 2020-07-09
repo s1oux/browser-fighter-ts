@@ -5,11 +5,20 @@ import { IFighterModel } from '../interfaces/iFighter';
 import { createFightersSelector } from './fighterSelector';
 
 export function createFighters(fighters: IFighterModel[]): HTMLElement {
-  const selectFighter = createFightersSelector();
-  const container = createElement({ tagName: 'div', className: 'fighters___root' });
-  const preview = createElement({ tagName: 'div', className: 'preview-container___root' });
-  const fightersList = createElement({ tagName: 'div', className: 'fighters___list' });
-  const fighterElements = fighters.map((fighter) => createFighter(fighter, selectFighter));
+  const selectFighter: (id: string) => Promise<void> = createFightersSelector();
+  const container: HTMLElement = createElement({
+    tagName: 'div',
+    className: 'fighters___root'
+  });
+  const preview: HTMLElement = createElement({
+    tagName: 'div',
+    className: 'preview-container___root'
+  });
+  const fightersList: HTMLElement = createElement({
+    tagName: 'div',
+    className: 'fighters___list'
+  });
+  const fighterElements: HTMLElement[] = fighters.map((fighter) => createFighter(fighter, selectFighter));
 
   fightersList.append(...fighterElements);
   container.append(preview, fightersList);
@@ -17,10 +26,16 @@ export function createFighters(fighters: IFighterModel[]): HTMLElement {
   return container;
 }
 
-function createFighter(fighter: IFighterModel, selectFighter: (fighterId: string) => Promise<void>) {
-  const fighterElement = createElement({ tagName: 'div', className: 'fighters___fighter' });
-  const imageElement = createImage(fighter);
-  const onClick = () => selectFighter(fighter._id);
+function createFighter(
+  fighter: IFighterModel,
+  selectFighter: (fighterId: string) => Promise<void>
+): HTMLElement {
+  const fighterElement: HTMLElement = createElement({
+    tagName: 'div',
+    className: 'fighters___fighter'
+  });
+  const imageElement: HTMLElement = createImage(fighter);
+  const onClick: () => Promise<void> = () => selectFighter(fighter._id);
 
   fighterElement.append(imageElement);
   fighterElement.addEventListener('click', onClick, false);
@@ -31,7 +46,7 @@ function createFighter(fighter: IFighterModel, selectFighter: (fighterId: string
 function createImage(fighter: IFighterModel): HTMLElement {
   const { source, name } = fighter;
   const attributes = { src: source };
-  const imgElement = createElement({
+  const imgElement: HTMLElement = createElement({
     tagName: 'img',
     className: 'fighter___fighter-image',
     title: name,

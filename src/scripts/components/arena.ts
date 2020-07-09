@@ -99,8 +99,12 @@ function createFighters(
     className: 'arena___battlefield'
   });
   if(firstFighter && secondFighter) {
-    const firstFighterElement = createFighter(firstFighter, 'left');
-    const secondFighterElement = createFighter(secondFighter, 'right');
+    const firstFighterElement: HTMLElement = createFighter(
+      firstFighter, 'left'
+    );
+    const secondFighterElement: HTMLElement = createFighter(
+      secondFighter, 'right'
+    );
 
     battleField.append(firstFighterElement, secondFighterElement);
   }
@@ -113,9 +117,9 @@ function createFighter(
   position: string
 ): HTMLElement {
   const imgElement: HTMLElement = createFighterImage(fighter);
-  const positionClassName = position === 'right' ?
+  const positionClassName: string = position === 'right' ?
     'arena___right-fighter' : 'arena___left-fighter';
-  const fighterElement = createElement({
+  const fighterElement: HTMLElement = createElement({
     tagName: 'div',
     className: `arena___fighter ${positionClassName}`,
   });
