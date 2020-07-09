@@ -3,13 +3,14 @@ import { createElement } from '../helpers/domHelper';
 import { IFighterModel } from '../interfaces/iFighter';
 
 export function createFighterPreview(
-  fighter: IFighterModel, position: string
+  fighter: IFighterModel, position: 'left' | 'right'
 ): HTMLElement | '' {
   if (!fighter) {
     return '';
   }
 
-  const positionClassName: string = position === 'right' ? 'fighter-preview___right' : 'fighter-preview___left';
+  const positionClassName: string = `fighter-preview___${position}`;
+  
   const fighterElement: HTMLElement = createElement({
     tagName: 'div',
     className: `fighter-preview___root ${positionClassName}`,

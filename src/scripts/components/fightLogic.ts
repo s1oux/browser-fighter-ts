@@ -1,7 +1,7 @@
 import { IFighter } from '../interfaces/iFighter';
 
 export const updateHealthIndicator = (
-  fighter:IFighter, side: string
+  fighter:IFighter, side: 'right' | 'left'
 ): void => {
   document.getElementById(`${side}-fighter-indicator`)!.style.width = `${Math.round(
     (fighter.currentHealth / fighter.initialHealth) * 100

@@ -96,7 +96,7 @@ const checkKeyPress = (keyCode: string, firstFighter: IFighter, secondFighter: I
 const playerAttacks = (
   attacker: IFighter,
   defender: IFighter,
-  side: string
+  side: 'right' | 'left'
 ): void => {
   const attackerDamageDealt = getDamage(attacker, defender);
   defender.currentHealth -= attackerDamageDealt;
@@ -109,7 +109,7 @@ const checkCriticalHitSequence = (
   defender:IFighter,
   key: string,
   combination: string[],
-  side: string
+  side: 'right' | 'left'
 ): void => {
   switch (attacker.criticalHitSequence.length) {
     case 0:

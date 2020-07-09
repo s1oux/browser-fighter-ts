@@ -114,11 +114,11 @@ function createFighters(
 
 function createFighter(
   fighter: IFighterModel,
-  position: string
+  position: 'right' | 'left'
 ): HTMLElement {
   const imgElement: HTMLElement = createFighterImage(fighter);
-  const positionClassName: string = position === 'right' ?
-    'arena___right-fighter' : 'arena___left-fighter';
+  const positionClassName: string = `arena___${position}-fighter`;
+  
   const fighterElement: HTMLElement = createElement({
     tagName: 'div',
     className: `arena___fighter ${positionClassName}`,
