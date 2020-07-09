@@ -1,5 +1,7 @@
 import { controls } from '../../constants/controls';
 
+import { IFighter, IFighterModel } from '../interfaces/iFighter';
+
 import Player from './fighterPlayer';
 import {
   resetCriticalHitParameters,
@@ -9,28 +11,10 @@ import {
   checkCriticalHitDelay,
 } from './criticalHitLogic';
 
-interface IFighter {
-  name: string,
-  attack: number,
-  defense: number,
-  initialHealth: number,
-  currentHealth: number,
-  blocking: boolean,
-  criticalHitSequence: string[],
-  criticalHitTiming: Date | number,
-  lastCriticalHit: Date | number
-}
-
-interface IFighterModel {
-  _id: string,
-  name: string,
-  health: number, 
-  attack: number, 
-  defense: number,
-  source: string
-}
-
-export async function fight(firstFighter: IFighterModel, secondFighter: IFighterModel) {
+export async function fight(
+  firstFighter: IFighterModel,
+  secondFighter: IFighterModel
+): Promise<IFighterModel> {
   return new Promise((resolve) => {
     const firstPlayer = new Player(firstFighter);
     const secondPlayer = new Player(secondFighter);
@@ -53,8 +37,6 @@ export async function fight(firstFighter: IFighterModel, secondFighter: IFighter
         firstPlayer.blocking = false;
       } else if (event.code === controls.PlayerTwoBlock && secondPlayer.blocking) {
         secondPlayer.blocking = false;
-      } else {
-        // do nothing
       }
     };
     document.addEventListener('keyup', keyUpListener);
@@ -66,12 +48,12 @@ export async function fight(firstFighter: IFighterModel, secondFighter: IFighter
   });
 }
 
-export function getCriticalHit(fighter: IFighter) {
+export function getCriticalHit(fighter: IFighter): number {
   // return critical damage
   return fighter.attack * 2;
 }
 
-export function getDamage(attacker: IFighter, defender: IFighter) {
+export function getDamage(attacker: IFighter, defender: IFighter): number {
   // return damage
   if (attacker.blocking) {
     return 0;
@@ -85,43 +67,37 @@ export function getDamage(attacker: IFighter, defender: IFighter) {
   }
 }
 
-export function getHitPower(fighter: IFighter) {
+export function getHitPower(fighter: IFighter): number {
   const criticalHitChance = getRandomNumber(1, 2);
   const { attack } = fighter;
   return attack * criticalHitChance;
-  // return hit power
 }
 
-export function getBlockPower(fighter: IFighter) {
-  // return block power
+export function getBlockPower(fighter: IFighter): number {
   const dodgeChance = getRandomNumber(1, 2);
   const { defense } = fighter;
   return defense * dodgeChance;
 }
 
-const getRandomNumber = (min: number, max: number) => {
+const getRandomNumber = (min: number, max: number): number => {
   return Math.random() * (max - min) + min;
 };
 
-const checkKeyPress = (keyCode: string, firstFighter: IFighter, secondFighter: IFighter) => {
+const checkKeyPress = (keyCode: string, firstFighter: IFighter, secondFighter: IFighter): void => {
   switch (keyCode) {
     case controls.PlayerOneAttack:
-      // handlePlayerAttack
       const secondPlayerDamageDealt = getDamage(firstFighter, secondFighter);
       secondFighter.currentHealth -= secondPlayerDamageDealt;
       resetCriticalHitParameters(firstFighter);
 
       updateHealthIndicator(secondFighter, 'right');
-
       break;
     case controls.PlayerTwoAttack:
-      // handlePlayerAttack
       const firstPlayerDealt = getDamage(secondFighter, firstFighter);
       firstFighter.currentHealth -= firstPlayerDealt;
       resetCriticalHitParameters(secondFighter);
 
       updateHealthIndicator(firstFighter, 'left');
-
       break;
     case controls.PlayerOneBlock:
       if (!firstFighter.blocking) {
@@ -150,21 +126,18 @@ const checkKeyPress = (keyCode: string, firstFighter: IFighter, secondFighter: I
           controls.PlayerTwoCriticalHitCombination,
           'left'
         );
-      } else {
-        // do nothing if player presses non-control keys
       }
-
       break;
   }
 };
 
-const updateHealthIndicator = (fighter:IFighter, side: string) => {
+const updateHealthIndicator = (fighter:IFighter, side: string): void => {
   document.getElementById(`${side}-fighter-indicator`)!.style.width = `${Math.round(
     (fighter.currentHealth / fighter.initialHealth) * 100
   )}%`;
 };
 
-const checkCriticalHitSequence = (attacker: IFighter, defender:IFighter, key: string, combination: string[], side: string) => {
+const checkCriticalHitSequence = (attacker: IFighter, defender:IFighter, key: string, combination: string[], side: string): void => {
   switch (attacker.criticalHitSequence.length) {
     case 0:
       if (checkLastCriticalHitTime(attacker)) {

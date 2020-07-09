@@ -1,29 +1,21 @@
 import { createFighters } from './components/fightersView';
 import { fighterService } from './services/fightersService';
-
-interface IFighterModel {
-  _id: string,
-  name: string,
-  health: number, 
-  attack: number, 
-  defense: number,
-  source: string
-}
+import { IFighterModel } from './interfaces/iFighter';
 
 class App {
   constructor() {
     this.startApp();
   }
 
-  static rootElement = document.getElementById('root');
-  static loadingElement = document.getElementById('loading-overlay');
+  static rootElement: HTMLElement | null = document.getElementById('root');
+  static loadingElement: HTMLElement | null = document.getElementById('loading-overlay');
 
   async startApp() {
     try {
       App.loadingElement!.style.visibility = 'visible';
 
-      const fighters = await fighterService.getFighters();
-      const fightersElement = createFighters(fighters as IFighterModel[]);
+      const fighters: IFighterModel[] = await fighterService.getFighters();
+      const fightersElement: HTMLElement = createFighters(fighters);
 
       App.rootElement!.appendChild(fightersElement);
     } catch (error) {

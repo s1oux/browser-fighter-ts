@@ -1,15 +1,10 @@
 import { createElement } from '../helpers/domHelper';
 
-interface IFighterModel {
-  _id: string,
-  name: string,
-  health: number, 
-  attack: number, 
-  defense: number,
-  source: string
-}
+import { IFighterModel } from '../interfaces/iFighter';
 
-export function createFighterPreview(fighter: IFighterModel, position: string) {
+export function createFighterPreview(
+  fighter: IFighterModel, position: string
+): HTMLElement | '' {
   if (!fighter) {
     return '';
   }
@@ -20,8 +15,6 @@ export function createFighterPreview(fighter: IFighterModel, position: string) {
     className: `fighter-preview___root ${positionClassName}`,
   });
 
-  // todo: show fighter info (image, name, health, etc.)
-
   fighterElement.append(createFighterName(fighter));
   fighterElement.append(createFighterImage(fighter));
   fighterElement.append(createFighterInfo(fighter));
@@ -29,14 +22,17 @@ export function createFighterPreview(fighter: IFighterModel, position: string) {
   return fighterElement;
 }
 
-export function createFighterName(fighter: IFighterModel) {
+export function createFighterName(fighter: IFighterModel): HTMLElement {
   const { name } = fighter;
-  const nameElement = createElement({ tagName: 'h3', className: 'fighter-preview___name' });
+  const nameElement = createElement({
+    tagName: 'h3',
+    className: 'fighter-preview___name'
+  });
   nameElement.innerText = name;
   return nameElement;
 }
 
-export function createFighterImage(fighter: IFighterModel) {
+export function createFighterImage(fighter: IFighterModel): HTMLElement {
   const { source, name } = fighter;
   const attributes = { src: source };
   const imgElement = createElement({
@@ -50,7 +46,7 @@ export function createFighterImage(fighter: IFighterModel) {
   return imgElement;
 }
 
-export function createFighterInfo(fighter: IFighterModel) {
+export function createFighterInfo(fighter: IFighterModel): HTMLElement {
   const { attack, defense, health } = fighter;
 
   const infoElement = createElement({
@@ -74,7 +70,7 @@ export function createFighterInfo(fighter: IFighterModel) {
   return infoElement;
 }
 
-const createParagraphElement = () =>
+const createParagraphElement = (): HTMLElement =>
   createElement({
     tagName: 'p',
   });
